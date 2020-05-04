@@ -30,7 +30,7 @@ module.exports = {
         start_url: `/`,
         background_color: `#ffffff`,
         display: `standalone`,
-        icon: `static/use-cloudinary-logo.png`,
+        icon: `static/base_logo.png`,
       },
     },
     `gatsby-plugin-sitemap`,
