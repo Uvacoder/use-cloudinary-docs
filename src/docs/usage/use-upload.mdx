@@ -1,0 +1,109 @@
+---
+title: useUpload
+---
+
+The `useUpload` hook combined with a serverless function allows you to upload your files with ease to your Cloudinary account.
+
+```jsx
+import { useUpload } from 'use-cloudinary'
+
+function Upload() {
+  const {upload, data, status, error } = useUpload({ endpoint: "/your/endpoint" });
+
+  if (status === "loading") return <p>Loading...</p>;
+  if (status === "error") return <p>{error.message}</p>;
+
+  return (
+    <div>
+      <input type="file" onChange={() => {
+        // ...stuff to make sure your media is ready to upload 
+        upload({
+          file,
+          uploadOptions 
+        });
+      }} />
+      {data && <img src={data.url} />}
+    </div>
+  )
+}
+```
+
+An example serverless function you'd set up looks like this --
+
+```js
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET
+})
+
+exports.handler = (event) => {
+  const { public_id, file, tags, eager, type = 'auto', size } = JSON.parse(event.body);
+
+  const res = await cloudinary.uploader.upload(file, {
+        public_id,
+        resource_type: type,
+        tags,
+        eager
+      })
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify(res)
+  }
+}
+```
+
+
+### Args
+
+<div style="overflow-x:auto;">
+  <table>
+    <tr>
+      <th>Key</th>
+      <th>Type</th>
+      <th>Required?</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td>endpoint</td>
+      <td>String</td>
+      <td>Yes</td>
+      <td>An endpoint that will accept your file and options and upload to Cloudinary</td>
+    </tr>
+  </table>
+</div>
+
+### Return values
+
+<div style="overflow-x:auto;">
+  <table>
+    <tr>
+      <th>Key</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td>upload</td>      
+      <td>Func</td>
+      <td>An async function that that will pass our file and any transform options to our serverless function</td>
+    </tr>
+    <tr>
+      <td>data</td>
+      <td>undefined || String</td>      
+      <td>When upload is successful, data will return the value of the request. More about this <a href="">here</a></td>
+    </tr>
+    <tr>
+      <td>status</td>
+      <td>String</td>      
+      <td>The status value defines the lifecycle of your request, returning either "loading", "error", or "success". More about this <a href="">here</a></td>
+    </tr>
+    <tr>
+      <td>error</td>
+      <td>Object</td>      
+      <td>When getVideo is successful, data will return the value of the request, usually a String defining your asset URL. More about this <a href="">here</a></td>
+    </tr>
+  </table>
+</div>

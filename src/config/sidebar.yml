@@ -4,7 +4,7 @@
   link: '/'
 - label: 'Getting started'
   link: '/getting-started'
-- label: Usage
+- label: "Usage"
   items:
     - label: 'useImage'
       link: '/usage/use-image'
@@ -18,3 +18,7 @@
       link: '/usage/use-upload'
     - label: 'useSearch'
       link: '/usage/use-search'
+- label: Examples
+  items: 
+    - label: "Photo Grid"
+      link: "/examples/grid"
