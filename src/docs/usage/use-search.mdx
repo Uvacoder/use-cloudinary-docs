@@ -1,3 +1,54 @@
 ---
 title: useSearch
 ---
+
+Combining our useSearch hook and a serverless endpoint will let you create different ways to call multiple  or individual assets, based off of tags or types. 
+
+```jsx
+import Image from './Image';
+import { useSearch } from 'use-cloudinary';
+
+export default function Images({ endpoint }) {
+  const {search, data, status} = useSearch({ endpoint: endpoint });
+
+  if (status === "loading") return <p>Loading...</p>;
+
+  return (
+    <div>
+      <button onClick={() => search({
+        expression: "resource_type:image"
+      })}>
+        Load
+      </button>
+      <div>
+        {
+          data && data.resources.map(image => (
+            <Image publicId={image.public_id} transforms={{ height: 0.2, border: "2px_solid_black" }} />
+          )}
+      </div>
+    </div >
+  )
+```
+
+Combined with this serverless endpoint example, we can get all of the images in our Cloudinary account, by utilizing search expressions and looking for all images. Cloudinary's [Search API](https://cloudinary.com/documentation/search_api) let's you search your assets a bunch of different ways!
+
+```js
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET
+})
+
+exports.handler = async (event) => {
+  const body = JSON.parse(event.body);
+  const res = await cloudinary.search
+    .expression(body.expression)
+    .execute().then(result => result);
+  return {
+    statusCode: 200,
+    body: JSON.stringify(res)
+  }
+}
+```

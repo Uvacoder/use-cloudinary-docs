@@ -6,7 +6,7 @@ module.exports = {
     siteDescription: `A set of React hooks used to surface the powers of Cloudinary to the your React applications`,
     siteUrl: `https://use-cloudinary.netlify.com`,
     siteAuthor: `@domitriusanthony`,
-    siteImage: `/banner.png`,
+    siteImage: `static/use-cloudinary-logo.png`,
     siteLanguage: `en`,
     themeColor: `#7159c1`,
     basePath: `/`,
@@ -30,7 +30,7 @@ module.exports = {
         start_url: `/`,
         background_color: `#ffffff`,
         display: `standalone`,
-        icon: `static/favicon.png`,
+        icon: `static/use-cloudinary-logo.png`,
       },
     },
     `gatsby-plugin-sitemap`,
@@ -43,7 +43,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-canonical-urls`,
       options: {
-        siteUrl: `https://use-cloudinary.netlify.com`,
+        siteUrl: `https://use-cloudinary.netlify.app`,
       },
     },
     `gatsby-plugin-offline`,
