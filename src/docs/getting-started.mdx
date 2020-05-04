@@ -12,16 +12,16 @@ yarn add use-cloudinary
 npm i use-cloudinary
 ```
 
-Now, before we jump into using these hooks, let's dive into a few key pieces that will help get you up and running with Cloudinary in your React apps.
+Before you jump into using these hooks, let's dive into a few key pieces that will help get you up and running with Cloudinary in your React apps.
 
-First, let's go and create an account with [Cloudinary](www.cloudinary.com)
+First, go and create an account with [Cloudinary](www.cloudinary.com)
 
 Once your account is created, you'll see your `cloud name` in the top right corner of your console. This cloud name is neccessary to let our hooks know where to find the media we're going to be accessing.
 
-<img src={img} />
+<img src={img} style={{ width: "50%", border: "1px solid black"}} alt="Example of where to find your cloud name in Cloudinary"/>
 
 Next, another important chunk of information to get acquainted with is Cloudinary's [Image](https://cloudinary.com/documentation/image_transformation_reference) and [Video](https://cloudinary.com/documentation/video_transformation_reference) transformation options. These options can be utilized through most of the hooks to decide what your media should look like when we request it. 
 
-Lastly, these hooks are built over top of the [Cloudinary JS SDK](https://cloudinary.com/documentation/javascript_integration). 
+Lastly, these hooks are built over top of the [Cloudinary JS SDK](https://cloudinary.com/documentation/javascript_integration), so it's a great reference for what types of options can be fed into functions.
 
 After that, you are ready 🚀

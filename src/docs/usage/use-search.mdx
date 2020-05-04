@@ -1,15 +1,14 @@
 ---
 title: useSearch
 ---
-
-Combining our useSearch hook and a serverless endpoint will let you create different ways to call multiple  or individual assets, based off of tags or types. 
+Combining our `useSearch` hook with a serverless endpoint will let you create different ways to call multiple  or individual assets, based off of tags or types. 
 
 ```jsx
 import Image from './Image';
 import { useSearch } from 'use-cloudinary';
 
 export default function Images({ endpoint }) {
-  const {search, data, status} = useSearch({ endpoint: endpoint });
+  const { search, data, status, error } = useSearch({ endpoint });
 
   if (status === "loading") return <p>Loading...</p>;
 
@@ -52,3 +51,108 @@ exports.handler = async (event) => {
   }
 }
 ```
+
+## Args
+
+<div style="overflow-x:auto;">
+  <table>
+    <tr>
+      <th>Key</th>
+      <th>Type</th>
+      <th>Required?</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td>endpoint</td>
+      <td>String</td>
+      <td>Yes</td>
+      <td>An endpoint that will accept your file and options and upload to Cloudinary</td>
+    </tr>
+  </table>
+</div>
+
+## Return values
+
+<div style="overflow-x:auto;">
+  <table>
+    <tr>
+      <th>Key</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td>search</td>      
+      <td>Func</td>
+      <td>An async function that accepts options and returns an array of objects or single object, describing your Cloudinary assets</td>
+    </tr>
+    <tr>
+      <td>data</td>
+      <td>undefined || String</td>      
+      <td>When `search` is successful, data will return the value of the request. More about React Query's return values <a href="https://github.com/tannerlinsley/react-query#returns">here</a></td>
+    </tr>
+    <tr>
+      <td>status</td>
+      <td>String</td>      
+      <td>The status value defines the lifecycle of your request, returning either "loading", "error", or "success". More about React Query's return values <a href="https://github.com/tannerlinsley/react-query#returns">here</a></td>
+    </tr>
+    <tr>
+      <td>error</td>
+      <td>Object</td>      
+      <td>When getVideo is successful, data will return the value of the request, usually a String defining your asset URL. More about React Query's return values <a href="https://github.com/tannerlinsley/react-query#returns">here</a></td>
+    </tr>
+  </table>
+</div>
+
+## search()
+
+Our `search` function simply can accept any of the options you would expect to send to the [Search API](https://cloudinary.com/documentation/search_api).
+
+Mostly, the search will be handled in your serverless function, so whatever you support there is available to your hook's `search`.
+
+Including no parameters in the method call will return the 50 most recently created resources in descending order of creation time.
+
+Otherwise your options are --
+
+<div style="overflow-x:auto;">
+  <table>
+    <tr>
+      <th>Key</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td>expression</td>      
+      <td>String</td>
+      <td>No</td>
+      <td>Describes the query string for filtering the assets in your account. Learn more <a src="https://cloudinary.com/documentation/search_api#expressions">here</a></td>
+    </tr>
+    <tr>
+      <td>sort_by</td>
+      <td>String</td>  
+      <td>No</td>    
+      <td>A key value pair, where the key is the field to sort by and the value is the direction</td>
+    </tr>
+    <tr>
+      <td>max_results</td>      
+      <td>Int</td>
+      <td>No</td>
+      <td>The maximum number of results to return. Default is 50, maximum is 500</td>
+    </tr>
+    <tr>
+      <td>next_cursor</td>      
+      <td>String</td>
+      <td>No</td>
+      <td>When a search request returns more results than max_results, the next_cursor value is returned as part of the response.</td>
+    </tr>
+    <tr>
+      <td>with_field</td>      
+      <td>String</td>
+      <td>No</td>
+      <td>You can have multiple with_field parameters with possible values of context and tags</td>
+    </tr>
+  </table>
+</div>
+
+
+## Be aware of your [Usage Limits](https://cloudinary.com/documentation/admin_api#usage_limits)

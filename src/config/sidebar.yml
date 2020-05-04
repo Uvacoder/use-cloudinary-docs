@@ -18,7 +18,7 @@
       link: '/usage/use-upload'
     - label: 'useSearch'
       link: '/usage/use-search'
-- label: Examples
-  items: 
-    - label: "Photo Grid"
-      link: "/examples/grid"
+# - label: Examples
+#   items: 
+#     - label: "Photo Grid"
+#       link: "/examples/grid"

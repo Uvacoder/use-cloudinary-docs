@@ -31,7 +31,7 @@ function Audio({ cloudName, publicId, transforms }) {
 }
 ```
 
-### Args
+## Args
 
 <div style="overflow-x:auto;">
   <table>
@@ -50,7 +50,7 @@ function Audio({ cloudName, publicId, transforms }) {
   </table>
 </div>
 
-### Return values
+## Return values
 
 <div style="overflow-x:auto;">
   <table>
@@ -82,4 +82,30 @@ function Audio({ cloudName, publicId, transforms }) {
   </table>
 </div>
 
+## getAudio()
+
+The `getAudio` function is just a `setState`, used to fire off our internal query and pass our options into our SDK to generate our URL.
+
+<div style="overflow-x:auto;">
+  <table>
+    <tr>
+      <th>Key</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td>public_id</td>      
+      <td>String</td>
+      <td>Yes</td>
+      <td>The public id is the name used as a title for the media you want to call</td>
+    </tr>
+    <tr>
+      <td>transform_options</td>
+      <td>Object</td>  
+      <td>No</td>    
+      <td>Video transformations apply for audio as well (e.g., trimming), but dimensional or visual related transformations are ignored. You can even <a href="https://cloudinary.com/documentation/audio_transformations#customizing_the_waveform_image">generate waveforms</a> from your audio</td>
+    </tr>
+  </table>
+</div>
 

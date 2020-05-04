@@ -57,7 +57,7 @@ exports.handler = (event) => {
 ```
 
 
-### Args
+## Args
 
 <div style="overflow-x:auto;">
   <table>
@@ -76,7 +76,7 @@ exports.handler = (event) => {
   </table>
 </div>
 
-### Return values
+## Return values
 
 <div style="overflow-x:auto;">
   <table>
@@ -107,3 +107,36 @@ exports.handler = (event) => {
     </tr>
   </table>
 </div>
+
+## upload()
+
+The `upload` function is simply a `setState` call to pass your file and transformation options to our endpoint. 
+
+<div style="overflow-x:auto;">
+  <table>
+    <tr>
+      <th>Key</th>
+      <th>Type</th>
+      <th>Required?</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td>file</td>
+      <td>String</td>
+      <td>Yes</td>
+      <td>
+        The file to upload. It can be:
+          <ul>
+            <li>a local file path (supported in SDKs only)</li>
+            <li>the actual data (byte array buffer). For example, in some SDKs, this could be an IO input stream of the data (e.g., File.open(file, "rb")).</li>
+            <li>the Data URI (Base64 encoded), max ~60 MB (62,910,000 chars)</li>
+            <li>the remote FTP, HTTP or HTTPS URL address of an existing file</li>
+            <li>a private storage bucket (S3 or Google Storage) URL of a whitelisted bucket</li>
+          </ul>  
+        For details and examples, see: data upload options.
+      </td>
+    </tr>
+  </table>
+</div>
+
+[Check this out](https://cloudinary.com/documentation/image_upload_api_reference#required_parameters) for a full list of optional parameters.
