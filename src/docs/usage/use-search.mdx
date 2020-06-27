@@ -1,7 +1,7 @@
 ---
 title: useSearch
 ---
-Combining our `useSearch` hook with a serverless endpoint will let you create different ways to call multiple  or individual assets, based off of tags or types. 
+Combining our `useSearch` hook with a serverless endpoint will let you create different ways to call multiple or individual assets, based off of a handful of different possibilities. 
 
 ```jsx
 import Image from './Image';
@@ -12,13 +12,15 @@ export default function Images({ endpoint }) {
 
   if (status === "loading") return <p>Loading...</p>;
 
+  // OPTION 1: To mirror Cloudinary's Node SDK's search expression, we've provided direct support for crafting custom search queries
+  const expressionSearch = search({ expression: "resource_type:image"})
+
+  // OPTION 2: Also included is a few opinionated object configurations to more easily craft search based off of user interaction. This includes publicId search, folder search, and more. 
+  const customConfigSearch = search({ resourceType: "image" }) 
+
   return (
     <div>
-      <button onClick={() => search({
-        expression: "resource_type:image"
-      })}>
-        Load
-      </button>
+      <button onClick={() => expressionSearch()}>Load</button>
       <div>
         {
           data && data.resources.map(image => (
@@ -105,7 +107,7 @@ exports.handler = async (event) => {
 
 ## search()
 
-Our `search` function simply can accept any of the options you would expect to send to the [Search API](https://cloudinary.com/documentation/search_api).
+Our `search` function simply can accept any of the options you would expect to send to the [Search API](https://cloudinary.com/documentation/search_api). There's also been added support to setup an opinionated search using a custom object configuration.
 
 Mostly, the search will be handled in your serverless function, so whatever you support there is available to your hook's `search`.
 
@@ -122,6 +124,36 @@ Otherwise your options are --
       <th>Description</th>
     </tr>
     <tr>
+      <td>publicId</td>      
+      <td>String</td>
+      <td>No</td>
+      <td>The public id of the asset to search for. Supports only exact matches currently. Case sensitive.</td>
+    </tr>
+      <tr>
+      <td>resourceType</td>      
+      <td>String</td>
+      <td>No</td>
+      <td>Possible values: image & video. Exact match only. Case sensitive.</td>
+    </tr>
+        <tr>
+      <td>folder</td>      
+      <td>String</td>
+      <td>No</td>
+      <td>Search for an exact folder path. Case sensitive.</td>
+    </tr>
+        <tr>
+      <td>tags</td>      
+      <td>String</td>
+      <td>No</td>
+      <td>Search for images by tag(s). The tags should be in a single string seperated by spaces. Case sensitive</td>
+    </tr>
+            <tr>
+      <td>aspectRatio</td>      
+      <td>String</td>
+      <td>No</td>
+      <td>Specify an image ratio in a string with "Width:Height" Exact match and case sensitive.</td>
+    </tr>
+        <tr>
       <td>expression</td>      
       <td>String</td>
       <td>No</td>

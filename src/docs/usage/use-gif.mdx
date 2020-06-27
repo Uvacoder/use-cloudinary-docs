@@ -6,22 +6,48 @@ The `useGif` hook gives you the option to call either a video as a looping gif, 
 ```jsx
 import { useGif } from 'use-cloudinary'
 
-function Gif({ cloudName, publicId, transforms }) {
-  const {getGif, data, status, error} = useGif({ cloud_name: cloudName })
+function Gif({ publicId, transformations, width, height, alt  }) {
+  const { generateUrl, url, status, error } = useImage({ cloudName: 'testing-hooks-upload' });
 
   React.useEffect(() => {
-    getGif({
-      public_id: publicId,
-      transform_options: {
-        ...transforms
+    // the `generateUrl` function will hook internally to the SDK and do a lot of the heavy lifting for generating your image url as a gif 
+    generateUrl({
+      publicId,
+      transformations: {
+        // by supplying height and width separately from the transformations object, 
+        // we can use the height and width to dictate the size of the element AND the transformations
+        height,
+        width,
+        // then we can spread the rest of the transformations in
+        ...transformations
+
+        /* 
+          you'll also be getting these automatically attached from internals
+
+          fetchFormat: 'auto',
+          quality: 'auto',
+          crop: 'scale'
+        */        
       }
-    })
-  }, [])
+    });
+  });
 
-  if (status === "loading") return <p>Loading...</p>;
-  if (status === "error") return <p>{error.message}</p>;
+  // status can either be "success", "loading", or "error"
+  if (status === 'loading') return <p>Loading...</p>;
 
-  return <img src={data} alt='gif from a video'/>
+  // we can check if the status of our request is an error, and surface that error to our UI
+  if (status === "error") return <p>{error.message}</p>
+
+   return (
+     <img 
+      src={data} 
+      alt={alt}
+      style={{
+        height,
+        width
+      }}
+    />
+  )
 }
 ```
 
@@ -36,7 +62,7 @@ function Gif({ cloudName, publicId, transforms }) {
       <th>Description</th>
     </tr>
     <tr>
-      <td>cloud_name</td>
+      <td>cloudName</td>
       <td>String</td>
       <td>Yes</td>
       <td>Your Cloudinary cloud name, used to identify where we're getting our media from</td>
@@ -54,14 +80,14 @@ function Gif({ cloudName, publicId, transforms }) {
       <th>Description</th>
     </tr>
     <tr>
-      <td>getGif</td>      
+      <td>generateUrl</td>      
       <td>Func</td>
       <td>An async function that accepts options and returns the URL of your Cloudinary asset</td>
     </tr>
     <tr>
-      <td>data</td>
+      <td>url</td>
       <td>undefined || String</td>      
-      <td>When getGif is successful, data will return the value of the request, usually a String defining your asset URL. More about React Query's return values <a href="https://github.com/tannerlinsley/react-query#returns">here</a></td>
+      <td>When `generateUrl` is successful, `url` will return a URL string. More about React Query's return values <a href="https://github.com/tannerlinsley/react-query#returns">here</a></td>
     </tr>
     <tr>
       <td>status</td>
@@ -77,9 +103,9 @@ function Gif({ cloudName, publicId, transforms }) {
 </div>
 
 
-## getGif()
+## generateUrl()
 
-The `getGif` function is just a `setState`, used to fire off our internal query and pass our options into our SDK to generate our URL.
+The `generateUrl` function is just a `setState`, used to fire off our internal query and pass our options into our SDK to generate our URL.
 
 <div style="overflow-x:auto;">
   <table>
@@ -90,13 +116,13 @@ The `getGif` function is just a `setState`, used to fire off our internal query 
       <th>Description</th>
     </tr>
     <tr>
-      <td>public_id</td>      
+      <td>publicId</td>      
       <td>String</td>
       <td>Yes</td>
       <td>The public id is the name used as a title for the media you want to call</td>
     </tr>
     <tr>
-      <td>transform_options</td>
+      <td>transformations</td>
       <td>Object</td>  
       <td>No</td>    
       <td>Check out all the transformations you can apply to your Gif <a href="https://cloudinary.com/documentation/video_transformation_reference">here</a>. You can also learn more about animated images <a href="https://cloudinary.com/documentation/animated_images#manipulating_animated_gifs">here</a></td>
