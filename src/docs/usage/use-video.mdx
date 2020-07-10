@@ -39,7 +39,7 @@ function Video({ publicId, transformations, width, height }) {
   if (isError) return <p>{error.message}</p>
 
   return (
-    <video stylle={{ height, width }} autoPlay controls>
+    <video style={{ height: `${height}px`, width: `${width}px` }} autoPlay controls>
       <source src={url} />
     </video>
   )

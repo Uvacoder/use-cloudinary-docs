@@ -40,9 +40,9 @@ function Image({ publicId, transformations, width, height, alt }) {
 
   return (
     <img    
-      styles={{
-        width,
-        height
+      style={{ 
+        height: `${height}px`,
+        width: `${width}px` 
       }}
       src={url}
       alt={alt}
