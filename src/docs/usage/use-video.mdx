@@ -7,7 +7,7 @@ The `useVideo` hook gives you the ability to call an image from your Cloudinary 
 import { useVideo } from 'use-cloudinary'
 
 function Video({ publicId, transformations, width, height }) {
-  const { generateUrl, url, status, error } = useImage({ cloudName: 'testing-hooks-upload' });
+  const { generateUrl, url, isLoading, isError, error } = useImage({ cloudName: 'testing-hooks-upload' });
 
   React.useEffect(() => {
     // the `generateUrl` function will hook internally to the SDK and do a lot of the heavy lifting for generating your video url 
@@ -33,10 +33,10 @@ function Video({ publicId, transformations, width, height }) {
   });
 
   // status can either be "success", "loading", or "error"
-  if (status === 'loading') return <p>Loading...</p>;
+  if (isLoading) return <p>Loading...</p>;
 
   // we can check if the status of our request is an error, and surface that error to our UI
-  if (status === "error") return <p>{error.message}</p>
+  if (isError) return <p>{error.message}</p>
 
   return (
     <video stylle={{ height, width }} autoPlay controls>
@@ -85,9 +85,24 @@ function Video({ publicId, transformations, width, height }) {
       <td>When `generateUrl` is successful, `url` will return a URL string. More about React Query's return values <a href="https://github.com/tannerlinsley/react-query#returns">here</a></td>
     </tr>
     <tr>
-      <td>status</td>
-      <td>String</td>      
-      <td>The status value defines the lifecycle of your request, returning either "loading", "error", or "success". More about React Query's return values <a href="https://github.com/tannerlinsley/react-query#returns">here</a></td>
+      <td>isLoading</td>
+      <td>Boolean</td>      
+      <td> isLoading state returns a boolean if the query is in a "hard" loading state. This means no cached data and the query is currently fetching.<a href="https://github.com/tannerlinsley/react-query#returns">here</a></td>
+    </tr>
+    <tr>
+      <td>isErrro</td>
+      <td>Boolean</td>      
+      <td>isError returns a boolean (true) if the query attempt resulted in an error (otherwise false). More about React Query return vairables <a href="https://github.com/tannerlinsley/react-query#returns">here</a></td>
+    </tr>
+    <tr>
+      <td>isSuccess</td>
+      <td>Boolean</td>      
+      <td>isSuccess returns a boolean (true) if the query attempt resulted in an error (otherwise false).More about React Query return vairables <a href="https://github.com/tannerlinsley/react-query#returns">here</a></td>
+    </tr>
+    <tr>
+      <td>isIdle</td>
+      <td>Boolean</td>      
+      <td>isIdle returns a boolean (true) if the query is initialized with { enabled: false} and no initial data is available (otherwise false). More about React Query return vairables <a href="https://github.com/tannerlinsley/react-query#returns">here</a></td>
     </tr>
     <tr>
       <td>error</td>

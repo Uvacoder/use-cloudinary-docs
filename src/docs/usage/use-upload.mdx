@@ -9,10 +9,10 @@ The `useUpload` hook combined with a serverless function allows you to upload yo
 import { useUpload } from 'use-cloudinary'
 
 function SignedUpload() {
-  const {upload, data, status, error } = useUpload({ endpoint: "/your/endpoint" });
+  const {upload, data, isLoading, isError, error } = useUpload({ endpoint: "/your/endpoint" });
 
-  if (status === "loading") return <p>Loading...</p>;
-  if (status === "error") return <p>{error.message}</p>;
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>{error.message}</p>;
 
   return (
     <div>
@@ -31,8 +31,8 @@ function SignedUpload() {
 function UnsignedUpload() {
   const {upload, data, status, error } = useUpload({ endpoint: "/your/endpoint" });
 
-  if (status === "loading") return <p>Loading...</p>;
-  if (status === "error") return <p>{error.message}</p>;
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>{error.message}</p>;
 
   return (
     <div>
@@ -127,9 +127,24 @@ exports.handler = event => {
       <td>When upload is successful, data will return the value of the request. More about this <a href="">here</a></td>
     </tr>
     <tr>
-      <td>status</td>
-      <td>String</td>      
-      <td>The status value defines the lifecycle of your request, returning either "loading", "error", or "success". More about this <a href="">here</a></td>
+      <td>isLoading</td>
+      <td>Boolean</td>      
+      <td> isLoading state returns a boolean if the query is in a "hard" loading state. This means no cached data and the query is currently fetching.<a href="https://github.com/tannerlinsley/react-query#returns">here</a></td>
+    </tr>
+    <tr>
+      <td>isErrro</td>
+      <td>Boolean</td>      
+      <td>isError returns a boolean (true) if the query attempt resulted in an error (otherwise false). More about React Query return vairables <a href="https://github.com/tannerlinsley/react-query#returns">here</a></td>
+    </tr>
+    <tr>
+      <td>isSuccess</td>
+      <td>Boolean</td>      
+      <td>isSuccess returns a boolean (true) if the query attempt resulted in an error (otherwise false).More about React Query return vairables <a href="https://github.com/tannerlinsley/react-query#returns">here</a></td>
+    </tr>
+    <tr>      
+      <td>isIdle</td>
+      <td>Boolean</td>      
+      <td>isIdle returns a boolean (true) if the query is initialized with { enabled: false} and no initial data is available (otherwise false). More about React Query return vairables <a href="https://github.com/tannerlinsley/react-query#returns">here</a></td>
     </tr>
     <tr>
       <td>error</td>

@@ -8,9 +8,10 @@ import Image from './Image';
 import { useSearch } from 'use-cloudinary';
 
 export default function Images({ endpoint }) {
-  const { search, data, status, error } = useSearch({ endpoint });
-
-  if (status === "loading") return <p>Loading...</p>;
+  const { search, data, isLoading, isError, error } = useSearch({ endpoint });
+ 
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>{error.message}</p>;
 
   // OPTION 1: To mirror Cloudinary's Node SDK's search expression, we've provided direct support for crafting custom search queries
   const expressionSearch = search({ expression: "resource_type:image"})
@@ -93,9 +94,24 @@ exports.handler = async (event) => {
       <td>When `search` is successful, data will return the value of the request. More about React Query's return values <a href="https://github.com/tannerlinsley/react-query#returns">here</a></td>
     </tr>
     <tr>
-      <td>status</td>
-      <td>String</td>      
-      <td>The status value defines the lifecycle of your request, returning either "loading", "error", or "success". More about React Query's return values <a href="https://github.com/tannerlinsley/react-query#returns">here</a></td>
+      <td>isLoading</td>
+      <td>Boolean</td>      
+      <td> isLoading state returns a boolean if the query is in a "hard" loading state. This means no cached data and the query is currently fetching.<a href="https://github.com/tannerlinsley/react-query#returns">here</a></td>
+    </tr>
+    <tr>
+      <td>isErrro</td>
+      <td>Boolean</td>      
+      <td>isError returns a boolean (true) if the query attempt resulted in an error (otherwise false). More about React Query return vairables <a href="https://github.com/tannerlinsley/react-query#returns">here</a></td>
+    </tr>
+    <tr>
+      <td>isSuccess</td>
+      <td>Boolean</td>      
+      <td>isSuccess returns a boolean (true) if the query attempt resulted in an error (otherwise false).More about React Query return vairables <a href="https://github.com/tannerlinsley/react-query#returns">here</a></td>
+    </tr>
+    <tr>      
+      <td>isIdle</td>
+      <td>Boolean</td>      
+      <td>isIdle returns a boolean (true) if the query is initialized with { enabled: false} and no initial data is available (otherwise false). More about React Query return vairables <a href="https://github.com/tannerlinsley/react-query#returns">here</a></td>
     </tr>
     <tr>
       <td>error</td>
